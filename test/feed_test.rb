@@ -64,7 +64,7 @@ class FeedTest < MiniTest::Unit::TestCase
       }#Product
     }]
 
-		response = @connection.submit_feed('product_data','Product',messages)
+		response = @connection.submit_feed('product_data','Product', messages)
     assert_kind_of SubmitFeedResponse, response
     assert_equal '2291326430', response.feed_submission.id
     assert_equal Feeds::PROCESSING_STATUSES[:submitted], response.feed_submission.feed_processing_status

@@ -2,8 +2,7 @@ module Amazon
   module MWS
     module Orders
 
-
-      def get_orders_list(params ={})
+      def list_orders(params ={})
         query_params = { 'Action' => 'ListOrders' }
         query_params.merge!({"CreatedAfter" => params[:created_after]}) if params[:created_after]
         query_params.merge!({"CreatedBefore" => params[:created_before]}) if params[:created_before]
@@ -21,9 +20,10 @@ module Amazon
         return response if params[:raw_xml]
         RequestOrdersResponse.format(response)
       end
+      alias_method :get_orders_list, :list_orders
 
 
-      def get_orders_list_by_next_token(params ={})
+      def list_orders_by_next_token(params ={})
         raise MissingRequiredParameter unless params[:next_token]
         query_params = { 
           'Action' => 'ListOrdersByNextToken', 
@@ -32,9 +32,10 @@ module Amazon
         return response if params[:raw_xml]
         RequestOrdersByNextTokenResponse.format(response)
       end
+      alias_method :get_orders_list_by_next_token, :list_orders_by_next_token
 
 
-      def get_list_order_items(params ={})
+      def list_order_items(params ={})
         amazon_order_id = params[:amazon_order_id]
         query_params = { 'Action' => 'ListOrderItems' }
         query_params.merge!({"AmazonOrderId" => amazon_order_id}) if amazon_order_id
@@ -42,9 +43,9 @@ module Amazon
         return response if params[:raw_xml]
        	RequestOrderItemsResponse.format(response)
       end
+      alias_method :get_list_order_items, :list_order_items
 
-
-      def get_list_order_items_by_next_token(params ={})
+      def list_order_items_by_next_token(params ={})
         raise MissingRequiredParameter unless params[:next_token]
         query_params = {
           'Action' => 'ListOrderItemsByNextToken',
@@ -53,7 +54,7 @@ module Amazon
         return response if params[:raw_xml]
         RequestOrderItemsByNextTokenResponse.format(response)
       end
-
+      alias_method :get_list_order_items_by_next_token, :list_order_items_by_next_token
 
       def get_orders(params ={})
         query_params = { 'Action' => "GetOrder" }

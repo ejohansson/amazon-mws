@@ -67,7 +67,7 @@ module Amazon
         result = SubmitFeedResponse.format(response)
       end
 
-      # params can only contain {:purge => true}
+      # params can contain {:purge => true and marketplace id list }
       def submit_feed(feed_type, message_type, messages = [], params = {})
         message_type= message_type.to_s.camelize
         raise InvalidMessageType if !MESSAGE_TYPES.include?(message_type)

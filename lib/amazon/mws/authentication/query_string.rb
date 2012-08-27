@@ -4,7 +4,6 @@ class Amazon::MWS::Authentication
     def initialize(params = {})
       query_params = {
         'AWSAccessKeyId'          => params[:access_key],
-        'MarketplaceIdList.Id.1'  => params[:marketplace_id],
         'SignatureMethod'         => Signature::METHOD,
         'SignatureVersion'        => Signature::VERSION,
         'Timestamp'               => Time.now.iso8601
@@ -19,6 +18,7 @@ class Amazon::MWS::Authentication
       else
       	query_params['Merchant'] = params[:merchant_id]
       	query_params['Version'] = Amazon::MWS::Authentication::VERSION      	
+      	#query_params['MarketplaceIdList.Id.1'] => params[:marketplace_id]
       end
 
       query_params = query_params.merge(params[:query_params] || {}) # Add any params that are passed in via uri before calculating the signature
