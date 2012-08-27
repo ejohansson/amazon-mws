@@ -5,9 +5,6 @@ TODO
 ===========
 
 * Complete the Reports API
-* Complete the Orders API
-* The API calls in general are under development
-* Parse the responses intelligently (not just as a hash)
 * Better documentation
 
 Intro

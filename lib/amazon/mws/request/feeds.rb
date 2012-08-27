@@ -1,7 +1,52 @@
 module Amazon
   module MWS
-    module Feed
-      include Enumerations
+    module Feeds
+
+      # Note: We do not handle flat file feed types
+      FEED_TYPES = {
+        :product_data              => '_POST_PRODUCT_DATA_',
+        :product_relationship_data => '_POST_PRODUCT_RELATIONSHIP_DATA_',
+        :item_data                 => '_POST_ITEM_DATA_',
+        :product_overrides         => '_POST_PRODUCT_OVERRIDES_DATA_',
+        :product_image_data        => '_POST_PRODUCT_IMAGE_DATA_',
+        :product_pricing           => '_POST_PRODUCT_PRICING_DATA_',
+        :inventory_availability    => '_POST_INVENTORY_AVAILABILITY_DATA_',
+        :order_acknowledgement     => '_POST_ORDER_ACKNOWLEDGEMENT_DATA_',
+        :order_fulfillment         => '_POST_ORDER_FULFILLMENT_DATA_',
+        :payment_adjustment        => '_POST_PAYMENT_ADJUSTMENT_DATA_'
+      }
+
+      MESSAGE_TYPES = [
+        "FulfillmentCenter",
+        "Inventory",
+        "OrderAcknowledgement",
+        "OrderAdjustment",
+        "OrderFulfillment",
+        "OrderReport",
+        "Override",
+        "Price",
+        "ProcessingReport",
+        "Product",
+        "ProductImage",
+        "Relationship",
+        "SettlementReport"
+      ]
+
+      PRODUCT_MESSAGE_TYPES = [
+        "Product",
+        "Price",
+        "ProductImage",
+        "Relationship",
+        "Inventory"
+      ]
+
+      PROCESSING_STATUSES = {
+        :submitted => '_SUBMITTED_',
+        :in_progress => '_IN_PROGRESS_',
+        :done => '_DONE_',
+        :completed => '_COMPLETED_'
+      }
+
       # The SubmitFeed operation uploads a file for processing together with
       # the necessary metadata to process the file.
 
@@ -14,7 +59,9 @@ module Amazon
 
       def submit_flat_file_feed(records, purge_flag = false)
         header = "sku\tproduct-id\tproduct-id-type\tprice\titem-condition\tquantity\tadd-delete\twill-ship-internationally\texpedited-shipping\titem-note\tfulfillment-center-id"
-        query_params = {"Action" => "SubmitFeed","FeedType" => "_POST_FLAT_FILE_INVLOADER_DATA_"}
+        query_params = {
+          'Action' => 'SubmitFeed',
+          'FeedType' => "_POST_FLAT_FILE_INVLOADER_DATA_" }
         query_params['PurgeAndReplace'] = 'true' if purge_flag
         response = post("/", query_params, ([header] + records).join("\r"))
         result = SubmitFeedResponse.format(response)
@@ -218,8 +265,6 @@ module Amazon
 
       alias_method :feed_submission_result, :get_feed_submission_result
     end
-
-    # Feed
 
   end
 end

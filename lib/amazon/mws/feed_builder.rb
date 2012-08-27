@@ -20,27 +20,27 @@ module Amazon
           render_header
           
           envelope_params = { :message_type => @message_type }
-          envelope_params.merge!({:purge => @params[:purge]}) if Feed::Enumerations::PRODUCT_MESSAGE_TYPES.include?(@message_type) && @params[:purge]==true
+          envelope_params.merge!({:purge => @params[:purge]}) if Feeds::PRODUCT_MESSAGE_TYPES.include?(@message_type) && @params[:purge]==true
           render_envelope(envelope_params)
           
-          if !@messages.nil?
-            @messages.flatten.each_with_index do |message,i|
-              message = {'MessageID'=>i+1}.merge(message) if message[:MessageID].nil?
-              render_message(message, @params)
-            end
+          return if @messages.nil?
+          @messages.flatten.each_with_index do |message,i|
+            ordered_message = ActiveSupport::OrderedHash.new
+            ordered_message["MessageID"] = i + 1 if message[:MessageID].nil?
+            ordered_message.merge!(message)
+            render_message(ordered_message, @params)                      
           end
         end
       end
 
       def render_header
         @xml.Header do
-          @xml.DocumentVersion "1.01"
+          @xml.DocumentVersion "1.2"
           @xml.MerchantIdentifier @merchant_id
         end
       end
 
       def render_envelope(params = {})
-        #@xml.EffectiveDate Time.now
         @xml.MessageType(params[:message_type].to_s)
         @xml.PurgeAndReplace(params[:purge] || false)
       end

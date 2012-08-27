@@ -19,9 +19,7 @@ module Amazon
         @connection
       end
 
-      def connected?
-        !@connection.nil?
-      end
+      def connected?; !@connection.nil? end
 
       #def disconnect
       #  @connection.http.finish if @connection.persistent?

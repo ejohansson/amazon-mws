@@ -1,9 +1,42 @@
 module Amazon
   module MWS
 
-    module Report
-      include Enumerations
+    module Reports
+      
+      #https://mws.amazon.com/docs/devGuide/index.html?ReportType.html
+      REPORT_TYPES = {
+        :flat_file_open_listings    => '_GET_FLAT_FILE_OPEN_LISTINGS_DATA_',
+        :merchant_listing           => '_GET_MERCHANT_LISTINGS_DATA_',
+        :merchant_listings_lite     => '_GET_MERCHANT_LISTINGS_DATA_LITE_',
+        :merchant_listings_liter    => '_GET_MERCHANT_LISTINGS_DATA_LITER_',
+        :merchant_canceled_listings => '_GET_MERCHANT_CANCELLED_LISTINGS_DATA_',
+        :nemo_merchant_listings     => '_GET_NEMO_MERCHANT_LISTINGS_DATA_',
+        :afn_inventory              => '_GET_AFN_INVENTORY_DATA_',
+        :flat_file_actionable_order => '_GET_FLAT_FILE_ACTIONABLE_ORDER_DATA_',
+        :orders                     => '_GET_ORDERS_DATA_', #API Function: ManageReportSchedule
+        :flat_file_order_report     => '_GET_FLAT_FILE_ORDER_REPORT_DATA_', #API Function: ManageReportSchedule
+        :flat_file_orders           => '_GET_FLAT_FILE_ORDERS_DATA_',
+        :converged_flat_file_order_report => '_GET_CONVERGED_FLAT_FILE_ORDER_REPORT_DATA_'
+      }
 
+      SCHEDULE = {
+        '15 minutes' =>  '_15_MINUTES_',
+        '30 minutes' =>  '_30_MINUTES_',
+        '1 hour'     => '_1_HOUR_',
+        '2 hours'     => '_2_HOURS_',
+        '4 hours'     => '_4_HOURS_',
+        '8 hours'     => '_8_HOURS_',
+        '12 hours'   => '_12_HOURS_',
+        '1 day'       => '_1_DAY_',
+        '2 days'     =>  '_2_DAYS_',
+        '3 days'     =>  '_72_HOURS_',
+        '7 days'     =>  '_7_DAYS_',
+        '14 days'     => '_14_DAYS_',
+        '15 days'     => '_15_DAYS_',
+        '30 days'     => '_30_DAYS_',
+        'Delete'     =>  '_NEVER_'
+      }
+      
       # The RequestReport operation requests the generation of a report, which
       # creates a report request. Reports are retained for 90 days.
       # Required Request Parameters
@@ -71,7 +104,6 @@ module Amazon
         response = get("/", {"Action" => "GetReportRequestList"}.merge(params))
         GetReportRequestListResponse.format(response)
       end
-      # add a nice method
       alias_method :report_request_list, :get_report_request_list
 
       # GetReportRequestListByNextToken
@@ -106,7 +138,6 @@ module Amazon
         response = get("/", {"Action" => "GetReportRequestCount"})
         GetReportRequestCountResponse.format(response)
       end
-      # add a nice method
       alias_method :report_request_count, :get_report_request_count
 
       # CancelReportRequests
@@ -162,7 +193,6 @@ module Amazon
         response = get("/", {"Action" => "GetReportList"}.merge(params))
         GetReportListResponse.format(response)
       end
-
       alias_method :report_list, :get_report_list
 
       # GetReportCount
@@ -188,7 +218,6 @@ module Amazon
         response = get("/", {"Action" => "GetReportCount"})
         GetReportCountResponse.format(response)
       end
-
       alias_method :report_count, :get_report_count
 
       # GetReport
@@ -270,7 +299,6 @@ module Amazon
         response = get("/", {"Action" => "GetReportScheduleList"}.merge(params))
         GetReportScheduleListResponse.format(response)
       end
-
       alias_method :report_schedule_list, :get_report_schedule_list
 
       def get_report_schedule_list_by_next_token(next_token)
@@ -282,14 +310,12 @@ module Amazon
 
          GetReportScheduleListByNextTokenResponse.format(response)
       end
-
       alias_method :report_schedule_list_by_next_token, :get_report_schedule_list_by_next_token
 
       def get_report_schedule_count(params = {})
         response = get("/", {"Action" => "GetReportScheduleCount"})
         GetReportScheduleCountResponse.format(response)
       end
-
       alias_method :report_schedule_count, :get_report_schedule_count
 
      end

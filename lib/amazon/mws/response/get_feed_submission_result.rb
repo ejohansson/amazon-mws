@@ -2,12 +2,13 @@ module Amazon
   module MWS
 
     class GetFeedSubmissionResultResponse < Response
-      class Header < Response
+
+      class Header < Node
         xml_reader :document_version, :as => Float
         xml_reader :merchant_id, :from => "MerchantIdentifier"
       end
 
-      class ProcessingSummary < Response
+      class ProcessingSummary < Node
         xml_name "ProcessingSummary"
 
         xml_reader :messages_processed,    :as => Integer
@@ -16,7 +17,7 @@ module Amazon
         xml_reader :messages_with_warning, :as => Integer
       end
 
-      class Result < Response
+      class Result < Node
         xml_name "Result"
 
         xml_reader :message_id, :from => "MessageID", :as => Integer
@@ -26,7 +27,7 @@ module Amazon
         xml_reader :sku, :from => "SKU", :in => "AdditionalInfo"
       end
 
-      class Message < Response
+      class Message < Node
         xml_name "Message"
 
         xml_reader :id, :from => "MessageID", :as => Integer

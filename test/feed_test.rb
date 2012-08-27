@@ -67,8 +67,8 @@ class FeedTest < MiniTest::Unit::TestCase
 		response = @connection.submit_feed('product_data','Product',messages)
     assert_kind_of SubmitFeedResponse, response
     assert_equal '2291326430', response.feed_submission.id
-    assert_equal Feed::Enumerations::PROCESSING_STATUSES[:submitted], response.feed_submission.feed_processing_status
-    assert_equal Feed::Enumerations::FEED_TYPES[:product_data], response.feed_submission.feed_type
+    assert_equal Feeds::PROCESSING_STATUSES[:submitted], response.feed_submission.feed_processing_status
+    assert_equal Feeds::FEED_TYPES[:product_data], response.feed_submission.feed_type
   end
   
   def test_get_feed_submission_list_failure
@@ -80,6 +80,9 @@ class FeedTest < MiniTest::Unit::TestCase
     @connection.stubs(:get).returns(xml_for('error',401))
     response = @connection.get_feed_submission_list
     assert_kind_of ResponseError, response
+    assert_equal 'AccessDenied', response.code
+    assert_equal 'Access to the resource Marketplace MARKETPLACE_ID is not a valid marketplace is denied.', response.message
+    assert_equal '75a808dd-72c6-4af4-b4ba-4b00f3153940', response.request_id
   end
 
   def test_get_feed_submission_list_success

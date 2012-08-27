@@ -20,7 +20,10 @@ module Amazon
 
     class MissingConnectionOptions < MWSException
     end
-
+    
+    class MissingRequiredParameter < MWSException
+    end
+    
     # All responses with a code between 300 and 599 that contain an <Error></Error> body are wrapped in an
     # ErrorResponse which contains an Error object. This Error class generates a custom exception with the name
     # of the xml Error and its message. All such runtime generated exception classes descend from ResponseError

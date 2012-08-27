@@ -1,10 +1,9 @@
 module Amazon
   module MWS
 
-    class OrdersRequest < Response
-
+    class OrderResponse < Node
       xml_name "Order"
-
+      
       xml_reader :amazon_order_id
       xml_reader :seller_order_id
       xml_reader :purchase_date, :as => DateTime
@@ -38,6 +37,28 @@ module Amazon
       xml_reader :shipment_service_level_category
 
     end
+
+    class RequestOrdersResponse < Response
+      xml_name "ListOrdersResponse"
+      result = "ListOrdersResult"
+      namespace = "xmlns:"
+
+       xml_reader :next_token, :in => result
+       xml_reader :last_updated_before, :in => result, :as => DateTime
+       xml_reader :request_id, :in => "ResponseMetadata"
+       xml_reader :orders, :as => [OrderResponse], :in => namespace + result + "/" + namespace + "Orders"
+    end
+
+    class RequestOrdersByNextTokenResponse < Response
+      xml_name "ListOrdersByNextTokenResponse"
+      result = "ListOrdersByNextTokenResult"
+      namespace = "xmlns:"
+
+       xml_reader :next_token, :in => result
+       xml_reader :last_updated_before, :in => result, :as => DateTime
+       xml_reader :request_id, :in => "ResponseMetadata"
+       xml_reader :orders, :as => [OrderResponse], :in => namespace + result + "/" + namespace + "Orders"
+    end
+
   end
 end
-

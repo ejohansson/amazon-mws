@@ -1,9 +1,7 @@
 module Amazon
   module MWS
 
-    class Response
-      include ROXML
-      xml_convention :camelcase
+    class Response < Node
 
       # This is the factoryish method that is called!, not new
       def self.format(response)
@@ -21,23 +19,52 @@ module Amazon
           return self.from_xml(response.body)
         end
       end
-
-      def accessors
-        roxml_references.map {|r| r.accessor}
-      end
-
-      # render a ROXML object as a normal hash, eliminating the @ and some unneeded admin fields
-    	def as_hash
-    		obj_hash = {}
-    		self.instance_variables.each do |v|
-    			m = v.to_s.sub('@','')
-    			if m != 'roxml_references' && m!= 'promotion_ids'
-    				obj_hash[m.to_sym] = self.instance_variable_get(v)
-    			end
-    		end
-    		obj_hash
-    	end      
-
     end
+
+    # SHARED XML NODES SENT IN MULTIPLE RESPONSES
+
+    class ReportSchedule < Node
+      xml_name "ReportSchedule"
+
+      xml_reader :report_type
+      xml_reader :schedule
+      xml_reader :scheduled_date, :as => Time
+    end
+
+    class ReportInfo < Node
+      xml_name "ReportInfo"
+
+      xml_reader :id, :from => "ReportId", :as => Integer
+      xml_reader :type, :from => "ReportType"
+      xml_reader :report_request_id, :as => Integer
+      xml_reader :available_date, :as => Time
+      xml_reader :acknowledged?
+      xml_reader :acknowledged_date, :as => Time
+    end
+
+    class FeedSubmission < Node
+      xml_name "FeedSubmissionInfo"
+
+      xml_reader :id, :from => "FeedSubmissionId"
+      xml_reader :feed_type
+      xml_reader :submitted_date, :as => Time
+      xml_reader :started_processing_date, :as => Time
+      xml_reader :completed_processing_date, :as => Time      
+      xml_reader :feed_processing_status
+    end
+
+    class ReportRequest < Node
+      xml_name "ReportRequestInfo"
+
+      xml_reader :id, :from => "ReportRequestId", :as => Integer
+      xml_reader :report_id, :from => "GeneratedReportId", :as => Integer
+      xml_reader :report_type
+      xml_reader :start_date, :as => Time
+      xml_reader :end_date, :as => Time
+      xml_reader :scheduled?
+      xml_reader :submitted_date, :as => Time
+      xml_reader :report_processing_status
+    end
+
   end
 end
