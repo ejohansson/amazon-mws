@@ -1,17 +1,13 @@
 # encoding: utf-8
-#require 'rubygems'
 
-if RUBY_VERSION.match("1.9")
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter 'test'
-  end
+require 'simplecov'
+SimpleCov.start do
+  add_filter 'test'
 end
 
 require 'minitest/autorun'
 require 'pathname'
 require 'yaml'
-#require 'fakeweb'
 require 'mocha/setup'
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'amazon', 'mws')
