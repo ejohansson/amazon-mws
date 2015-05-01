@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version = "0.2.0"
 
   s.authors     = ["David Michael", "A. Edward Wible", "Eric Johansson"]
-  s.email       = ["david.michael@sonymusic.com", "aewible@gmail.com", ejohansson@novarata.com]
+  s.email       = ["david.michael@sonymusic.com", "aewible@gmail.com", "ejohansson@novarata.com"]
   s.homepage    = "http://github.com/aew/amazon-mws"
   s.summary     = %q{A Ruby Wrapper for the Amazon MWS API}
   s.description = %q{A Ruby Wrapper for the Amazon MWS API}
