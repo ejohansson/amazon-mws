@@ -3,10 +3,10 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name = %q{amazon-mws}
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
-  s.authors     = ["David Michael", "A. Edward Wible"]
-  s.email       = ["david.michael@sonymusic.com", "aewible@gmail.com"]
+  s.authors     = ["David Michael", "A. Edward Wible", "Eric Johansson"]
+  s.email       = ["david.michael@sonymusic.com", "aewible@gmail.com", ejohansson@novarata.com]
   s.homepage    = "http://github.com/aew/amazon-mws"
   s.summary     = %q{A Ruby Wrapper for the Amazon MWS API}
   s.description = %q{A Ruby Wrapper for the Amazon MWS API}
@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "ruby-hmac", "~> 0.4.0"
-  s.add_dependency "roxml", "~> 3.3.1"
-  s.add_dependency "xml-simple", "~> 1.1.1"
-  s.add_dependency "builder", "~> 3.1.0"
+  s.add_dependency "ruby-hmac"
+  s.add_dependency "roxml"
+  s.add_dependency "xml-simple"
+  s.add_dependency "builder"
 end
